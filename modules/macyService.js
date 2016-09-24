@@ -8,7 +8,7 @@ reviewApp.factory('macyService', function($http, $base64) {
                     'x-macys-webservice-client-id': 'hackapalooza'
                 },
                 Accept: 'application/json',
-                url: 'http://api.macys.com/v3/catalog/reviews?productId='+productId+'&numberOfReviewsRequested='+numberOfReviews,
+                url: 'http://localhost:1337/api.macys.com/v3/catalog/reviews?productId='+productId+'&numberOfReviewsRequested='+numberOfReviews,
             };
 
             return $http(reqForMacy).success(function(data) {
