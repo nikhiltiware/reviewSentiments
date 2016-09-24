@@ -83,7 +83,6 @@
         }
     </style>
     <!-- Custom CSS -->
-    <link href="css/agency.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -94,6 +93,7 @@
 
 
     <script src="js/angular.min.js"></script>
+    <script src="js/angular-base64.js"></script>
     <script src="js/angular-ui-router.min.js"></script>
     <script src="js/ui-bootstrap-tpls-1.2.5.js"></script>
     <script src="js/checklist-model.js"></script>
@@ -106,7 +106,7 @@
 
     <script src="app.js"></script>
     <script src="modules/mainController.js"></script>
-    
+    <script src="modules/watsonService.js"></script>
 
 
 
@@ -136,6 +136,7 @@
 
     <div ng-controller="mainController">
       {{welcome}}
+        {{data}}
     </div>
 
 
