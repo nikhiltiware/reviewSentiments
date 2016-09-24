@@ -1,9 +1,29 @@
 reviewApp.controller('mainController', function($scope, $rootScope, $http, $stateParams, $state, $base64, watsonService, macyService) {
 
+  var seperatedTones = {
+      anger: [],
+      disgust: [],
+      fear: [],
+      joy: [],
+      sadness: [],
+  };
+
+  var aggregatedReviews = {
+    anger :"",
+    disgust = "";
+    fear = "";
+    joy = "";
+    sadness = "";
+  };
+
+
+
 
     var init = function() {
+        getURL();
         getReviews(2334186, 5);
     }
+
     var getReviews = function(productId, numberOfReviews) {
         macyService.async(productId, numberOfReviews).then(function(response) {
             console.log(response.data);
@@ -35,14 +55,10 @@ reviewApp.controller('mainController', function($scope, $rootScope, $http, $stat
         return finalString;
     };
 
+
+
     var analyseReviews = function(reviewSentimentsArray) {
-        var seperatedTones = {
-            anger: [],
-            disgust: [],
-            fear: [],
-            joy: [],
-            sadness: [],
-        };
+
 
         function segregateReviews(element, index, array) {
             if ( !! element.tone_categories[0]) {
@@ -57,6 +73,28 @@ reviewApp.controller('mainController', function($scope, $rootScope, $http, $stat
         reviewSentimentsArray.forEach(segregateReviews);
         console.log(seperatedTones);
     }
+
+    var getURL = function(){
+      chrome.tabs.query({
+      	active: true,
+      	windowId: chrome.windows.WINDOW_ID_CURRENT
+         },
+         function(array_of_Tabs) {
+      	console.log(array_of_Tabs[0].url);
+      	var url = array_of_Tabs[0].url;
+      	var name = 'ID';
+      	var paramValue;
+      	if (!url) url = window.location.href;
+          name = name.replace(/[\[\]]/g, "\\$&");
+          var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+              results = regex.exec(url);
+          if (!results) paramValue= null;
+          if (!results[2]) paramValue ='';
+          paramValue= decodeURIComponent(results[2].replace(/\+/g, " "));
+      	console.log(paramValue);
+         }
+      );
+    };
 
     init();
 });
