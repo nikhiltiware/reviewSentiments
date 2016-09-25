@@ -41,15 +41,16 @@ reviewApp.controller('mainController', function($scope, $rootScope, $http, $stat
     };
 
     var init = function(paramValue) {
-        getReviews(paramValue, 5);
+        getReviews(paramValue, 10);
     }
 
     var getReviews = function(productId, numberOfReviews) {
         macyService.async(productId, numberOfReviews).then(function(response) {
             console.log(response.data);
             var reviewsObject = response.data;
+            $scope.productName = reviewsObject.productName;
             var combinedReviews = combineReview(reviewsObject.perReviewWrapper);
-            console.log(combinedReviews);
+            //console.log(combinedReviews);
             getSentiments(combinedReviews);
         });
 

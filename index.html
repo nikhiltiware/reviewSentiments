@@ -144,6 +144,13 @@
             </div>
         </div>
 
+
+        <div class="row" style="margin-top: 5%;">
+            <div ng-if="productName" class="col-xs-12" style="color: #800000; font-size: 25px; font-style: italic; text-align:center">
+                {{productName}}
+            </div>
+        </div>
+
         <div class="row" style="margin-top: 5%;">
             <div class="col-xs-12 col-centered result-tabs">
                 <ul class="nav nav-tabs">
@@ -160,7 +167,7 @@
             <div class="col-xs-12 col-centered percent-results">
                 <div class="row progressDiv padding-15">
                     <div class="col-xs-3 textAlign">
-                        <i class="em em-grinning" style="padding-right:5px"></i>  <b>Joy</b>
+                        <i class="em em-grinning" style="margin-right:10px"></i>  <b>Joy</b>
                     </div>
                     <div class="col-xs-8" id="progressbar-4"></div>
                     <!--                    <div class="col-xs-2" id="percent-4"></div>-->
@@ -174,15 +181,18 @@
                     <div class="col-xs-1"></div>
                     <div class="col-xs-11" ng-if="allTones.joy[1].text">{{allTones.joy[1].text}}</div>
                 </div>
+                <hr style="width: 100%; color: black; height: 1px; background-color:grey;" />
+
                 <div class="row progressDiv padding-15">
                     <div class="col-xs-3 textAlign">
-                        <i class="em em-angry"></i>  <b>Anger</b>
+                        <i class="em em-angry" style="margin-right:10px"></i>  <b>Anger</b>
                     </div>
                     <div class="col-xs-8" id="progressbar-1">
                     </div>
 
                     <!--                    <div class="col-xs-2" id="percent-1"></div>-->
                 </div>
+
                 <div class="row progressDiv">
                     <div class="col-xs-1"></div>
                     <div class="col-xs-11" ng-if="allTones.anger[0].text">{{allTones.anger[0].text}}</div>
@@ -191,9 +201,12 @@
                     <div class="col-xs-1"></div>
                     <div class="col-xs-11" ng-if="allTones.anger[1].text">{{allTones.anger[1].text}}</div>
                 </div>
+
+                <hr style="width: 100%; color: black; height: 1px; background-color:grey;" />
+
                 <div class="row progressDiv padding-15">
                     <div class="col-xs-3 textAlign">
-                        <i class="em em-expressionless"></i>  <b>Disgust</b>
+                        <i class="em em-expressionless" style="margin-right:10px"></i>  <b>Disgust</b>
                     </div>
                     <div class="col-xs-8" id="progressbar-2">
 
@@ -208,9 +221,12 @@
                     <div class="col-xs-1"></div>
                     <div class="col-xs-11" ng-if="allTones.disgust[1].text">{{allTones.disgust[1].text}}</div>
                 </div>
+
+                <hr style="width: 100%; color: black; height: 1px; background-color:grey;" />
+
                 <div class="row progressDiv padding-15">
                     <div class="col-xs-3 textAlign">
-                        <i class="em em-confounded"></i>  <b>Fear</b>
+                        <i class="em em-confounded" style="margin-right:10px"></i>  <b>Fear</b>
                     </div>
                     <div class="col-xs-8" id="progressbar-3"></div>
                     <!--                    <div class="col-xs-2" id="percent-3"></div>-->
@@ -223,10 +239,11 @@
                     <div class="col-xs-1"></div>
                     <div class="col-xs-11" ng-if="allTones.fear[1].text">{{allTones.fear[1].text}}</div>
                 </div>
+                <hr style="width: 100%; color: black; height: 1px; background-color:grey;" />
 
                 <div class="row progressDiv padding-15">
                     <div class="col-xs-3 textAlign">
-                        <i class="em em-disappointed"></i>  <b>Sadness</b>
+                        <i class="em em-disappointed" style="margin-right:10px"></i>  <b>Sadness</b>
                     </div>
                     <div class="col-xs-8" id="progressbar-5">
 
@@ -241,6 +258,8 @@
                     <div class="col-xs-1"></div>
                     <div class="col-xs-11" ng-if="allTones.sadness[1].text">{{allTones.sadness[1].text}}</div>
                 </div>
+                <hr style="width: 100%; color: black; height: 1px; background-color:grey;" />
+
             </div>
         </div>
     </div>
