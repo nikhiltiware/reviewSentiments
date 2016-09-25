@@ -1,0 +1,47 @@
+.col-centered{
+	float: none !important;
+	margin: 0 auto !important;
+}
+
+#submit{
+	background-color: #2bf09c;
+	color: #ffffff;
+	font-style: bold;
+}
+
+.result-tabs{
+	visibility: hidden;
+}
+
+
+/*
+.nav-tabs li a{
+	color: #2bf09c;
+	font-weight:700;
+}
+
+.nav-tabs li a:hover{
+	
+	background-color:#2bf09c !important;
+	color: #ffffff; 
+}
+*/s
+.progressDiv{
+	margin-top:2%;
+	visibility:hidden;
+}
+
+/*.progressbar-text{
+	display: none !important;
+}*/
+.percent-results{
+	visibility: hidden;
+    z-index:2;
+    
+}
+
+.percent-verdict{
+	visibility: hidden;
+    position:relative;
+    z-index:1;
+}

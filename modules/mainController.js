@@ -1,5 +1,36 @@
 reviewApp.controller('mainController', function($scope, $rootScope, $http, $stateParams, $state, $base64, watsonService, macyService) {
 
+    var spinner;
+    
+    function loading(){
+        var opts = {
+  lines: 13 // The number of lines to draw
+, length: 28 // The length of each line
+, width: 14 // The line thickness
+, radius: 42 // The radius of the inner circle
+, scale: 1 // Scales overall size of the spinner
+, corners: 1 // Corner roundness (0..1)
+, color: '#000' // #rgb or #rrggbb or array of colors
+, opacity: 0.25 // Opacity of the lines
+, rotate: 0 // The rotation offset
+, direction: 1 // 1: clockwise, -1: counterclockwise
+, speed: 1 // Rounds per second
+, trail: 60 // Afterglow percentage
+, fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+, zIndex: 2e9 // The z-index (defaults to 2000000000)
+, className: 'spinner' // The CSS class to assign to the spinner
+, top: '50%' // Top position relative to parent
+, left: '50%' // Left position relative to parent
+, shadow: false // Whether to render a shadow
+, hwaccel: false // Whether to use hardware acceleration
+, position: 'absolute' // Element positioning
+}
+var target = document.getElementById('containerID')
+spinner = new Spinner(opts).spin(target);
+    }
+    
+    
+    
     var seperatedTones = {
         anger: [],
         disgust: [],
@@ -41,6 +72,7 @@ reviewApp.controller('mainController', function($scope, $rootScope, $http, $stat
     };
 
     var init = function(paramValue) {
+        loading();
         getReviews(paramValue, 10);
     }
 
@@ -76,7 +108,8 @@ reviewApp.controller('mainController', function($scope, $rootScope, $http, $stat
         return finalString;
     };
 
-
+    
+    
 
     var analyseReviews = function(reviewSentimentsArray) {
 
@@ -98,6 +131,9 @@ reviewApp.controller('mainController', function($scope, $rootScope, $http, $stat
         processEmotionalResponse(seperatedTones);
     }
 
+    
+    
+    
     var globalSum = 0,
         totalAnger = 0,
         totalDisgust = 0,
@@ -107,6 +143,7 @@ reviewApp.controller('mainController', function($scope, $rootScope, $http, $stat
 
     var processEmotionalResponse = function(jsonText) {
         var rootObj = jsonText;
+        //loading();
         console.log(jsonText);
         //alert(rootObj);
         totalAnger = getEmotionObject(rootObj, "anger", 0)
@@ -145,8 +182,10 @@ reviewApp.controller('mainController', function($scope, $rootScope, $http, $stat
 
     }
 
+    
+    
     var displayPercent = function(percent, tone_id) {
-
+        spinner.stop();
         var result_tabs = $('.result-tabs');
         if (result_tabs.css('visibility') == 'hidden') {
             result_tabs.css('visibility', 'visible');
@@ -229,6 +268,71 @@ reviewApp.controller('mainController', function($scope, $rootScope, $http, $stat
         bar.animate(percent);
 
     }
+    
+    
+    function showVerdict(){
+        
+        var ctx = document.getElementById("myChart").getContext("2d");
+        var pieData = {
+                    labels: [
+                        "Anger",
+                        "Disgust",
+                        "Fear",
+                        "Joy",
+                        "Sadness"
+                    ],
+                    datasets: [
+                        {   
+                            data: [totalAnger, totalDisgust, totalFear,totalJoy,totalSadness],
+                            backgroundColor: [
+                                "#d80c0c",
+                                "#19a303",
+                                "#a507b8",
+                                "#FFEA82",
+                                "#08b1c9"
+                            ],
+                            hoverBackgroundColor: [
+                                "#FF6384",
+                                "#36A2EB",
+                                "#FFCE56",
+                                "#FFCE56",
+                                "#FFCE56",
+
+                            ]
+                        }]
+                    };
+        var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: pieData
+            
+        });
+        
+    }
+    
+    function showResults(){
+        /*var percent_results = $('.percent-results');
+        if (percent_results.css('visibility') == 'hidden') {
+            percent_results.css('visibility', 'visible');
+        }
+
+        var progressDiv = $('.progressDiv');
+        if (progressDiv.css('visibility') == 'hidden') {
+            progressDiv.css('visibility', 'visiblity');
+        }
+        
+        var percent_verdict = $('.percent-verdict');
+        if (percent_verdict.css('visibility') == 'visible') {
+            percent_verdict.css('visibility', 'hidden');
+        }
+        */
+    }
+    
     getURL();
+    
+    
+    
+    
+    
+    
 
 });

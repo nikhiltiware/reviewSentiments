@@ -88,6 +88,7 @@
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
     <link href='bower_components/angular/angular-csp.css' rel='stylesheet' type='text/css'>
+        <link href="css/index.css" rel='stylesheet' type='text/css'>
 
 
     <script src="js/angular.min.js"></script>
@@ -113,6 +114,7 @@
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
     <script src="js/progressbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
@@ -140,32 +142,32 @@
 
         <div class="row" style="margin-top: 5%;">
             <div class="col-xs-12" style="color: #2bf09c; font-size: 25px; font-style: bold; text-align:center">
-                REVIEW SENTIMENTS
+                <img src="img/poster.png" alt="Senti-meter"/>
             </div>
         </div>
 
 
         <div class="row" style="margin-top: 5%;">
-            <div ng-if="productName" class="col-xs-12" style="color: #800000; font-size: 25px; font-style: italic; text-align:center">
-                {{productName}}
+            <div ng-if="productName" class="col-xs-12" style="color: #000; font-size: 18px; font-style: bold; text-align:center">
+                <b>{{productName}}</b>
             </div>
         </div>
 
-        <div class="row" style="margin-top: 5%;">
+        <div class="row" id="content" style="margin-top: 5%;">
             <div class="col-xs-12 col-centered result-tabs">
                 <ul class="nav nav-tabs">
-                    <li><a href="#">Results</a>
+                    <li class="active"><a href="#presults" data-toggle="tab" ng-click="showResults">Results</a>
                     </li>
-                    <li><a href="#">Verdict</a>
+                    <li><a href="#pverdict" data-toggle="tab" ng-click="showVerdict">Verdict</a>
                     </li>
                 </ul>
             </div>
         </div>
 
-
-        <div class="row" style="margin-top:2%;">
-            <div class="col-xs-12 col-centered percent-results">
-                <div class="row progressDiv padding-15">
+        
+        <div class="row tab-content clearfix" style="margin-top:2%;">
+            <div class="col-xs-12 col-centered percent-results tab-pane active" id="presults">
+                <div class="row progressDiv padding-15" style="margin-bottom:2%;">
                     <div class="col-xs-3 textAlign">
                         <i class="em em-grinning" style="margin-right:10px"></i>  <b>Joy</b>
                     </div>
@@ -261,11 +263,21 @@
                 <hr style="width: 100%; color: black; height: 1px; background-color:grey;" />
 
             </div>
-        </div>
+            
+            
+            <div class="col-xs-12 col-centered percent-verdict tab-pane" id="pverdict">
+                <canvas id="myChart" width="400" height="400"></canvas>
+
+            </div>
+            
+           </div>
+       
     </div>
 
 
 
 </body>
-
+    <script type="text/javascript">
+        
+    </script>
 </html>
