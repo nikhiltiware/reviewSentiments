@@ -129,6 +129,9 @@ spinner = new Spinner(opts).spin(target);
         //$scope.data = JSON.stringify(seperatedTones);
         $scope.allTones = seperatedTones;
         processEmotionalResponse(seperatedTones);
+        showVerdict();
+        //drawGraph();
+        getMax();
     }
 
     
@@ -309,22 +312,48 @@ spinner = new Spinner(opts).spin(target);
         
     }
     
-    function showResults(){
-        /*var percent_results = $('.percent-results');
-        if (percent_results.css('visibility') == 'hidden') {
-            percent_results.css('visibility', 'visible');
-        }
+    function getMax(){
+        var toneScores = [totalAnger, totalDisgust, totalFear,totalJoy,totalSadness];
+        var toneIndex = toneScores.indexOf(Math.max(totalAnger, totalDisgust, totalFear,totalJoy,totalSadness));
+        var emojies = ['http://emojidictionary.emojifoundation.com/img/emoji733.jpg','http://emojidictionary.emojifoundation.com/img/emoji718.jpg','http://emojidictionary.emojifoundation.com/img/emoji723.jpg','http://emojidictionary.emojifoundation.com/img/emoji50.jpg','http://emojidictionary.emojifoundation.com/img/emoji731.jpg'];
+        $scope.emoji = emojies[toneIndex];
+       
+    }
+    
+    
+    
+    var drawGraph = function() {
+          $scope.graphData = [{emotion: "anger",
+                              value: totalAnger},
+                             {emotion: "joy",
+                              value: totalJoy}];
 
-        var progressDiv = $('.progressDiv');
-        if (progressDiv.css('visibility') == 'hidden') {
-            progressDiv.css('visibility', 'visiblity');
-        }
-        
-        var percent_verdict = $('.percent-verdict');
-        if (percent_verdict.css('visibility') == 'visible') {
-            percent_verdict.css('visibility', 'hidden');
-        }
-        */
+            $scope.graphOptions = {
+                chart: {
+                    type: 'pieChart',
+                    height: 500,
+                    width: 800,
+                    x: function(d) {
+                        return d.emotion;
+                    },
+                    y: function(d) {
+                        return d.value;
+                    },
+                    showLabels: true,
+                    duration: 2000,
+                    labelThreshold: 0.01,
+                    labelSunbeamLayout: true,
+                    legend: {
+                        margin: {
+                            top: 5,
+                            right: 35,
+                            bottom: 5,
+                            left: 0
+                        }
+                    },
+                    legendPosition: "right"
+                }
+            };
     }
     
     getURL();

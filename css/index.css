@@ -41,7 +41,6 @@
 }
 
 .percent-verdict{
-	visibility: hidden;
     position:relative;
     z-index:1;
 }
