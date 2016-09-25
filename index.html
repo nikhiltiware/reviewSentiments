@@ -23,7 +23,7 @@
             width: 200px;
             overflow: hidden;
         }
-        #businessProfile{
+        #businessProfile {
             height: 200px;
             width: 200px;
             overflow: hidden;
@@ -31,11 +31,11 @@
         .padding-5-left {
             padding-left: 5px
         }
-        .padding-50 {
-            padding: 50px
+        .padding-15 {
+            padding: 25px
         }
-        .padding-30-left {
-            padding-left: 30px
+        .padding-20-bottom {
+            padding-bottom: 20px
         }
         .padding-85-top {
             padding-top: 85px
@@ -59,10 +59,8 @@
             vertical-align: middle;
             float: none;
         }
-        .trendsHeading {
-            text-align: -webkit-center;
-            margin: 15px 0;
-            font-size: 40px;
+        .textAlign {
+            text-align: left;
         }
         .padding-40-top {
             padding-top: 40px;
@@ -74,11 +72,10 @@
             text-align: -webkit-center;
             padding: 10px
         }
-
-        .trendsFontSize{
+        .trendsFontSize {
             font-size: 17px
         }
-        .no-padding-bottom{
+        .no-padding-bottom {
             padding-bottom: 0px;
         }
     </style>
@@ -104,14 +101,18 @@
     <script src="charts/nvd3/nv.d3.js"></script>
     <script src="charts/angular-nvd3/dist/angular-nvd3.js"></script>
     <link rel="stylesheet" href="charts/nvd3/nv.d3.css">
+    <script src="js/spin.min.js"></script>
+
 
     <script src="app.js"></script>
     <script src="modules/mainController.js"></script>
     <script src="modules/watsonService.js"></script>
     <script src="modules/macyService.js"></script>
-
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+    <!--    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
+    <script src="js/progressbar.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
@@ -134,9 +135,114 @@
 
 <body id="page-top" class="index" ng-app="reviewApp" ng-csp>
 
-    <div ng-controller="mainController">
-        {{data}}
-        <nvd3 options="options" data="data"></nvd3>
+    <div ng-controller="mainController" id="containerID" class="container-fluid" style="width: 600px">
+        <!--        <nvd3 options="options" data="data"></nvd3>-->
+
+        <div class="row" style="margin-top: 5%;">
+            <div class="col-xs-12" style="color: #2bf09c; font-size: 25px; font-style: bold; text-align:center">
+                REVIEW SENTIMENTS
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 5%;">
+            <div class="col-xs-12 col-centered result-tabs">
+                <ul class="nav nav-tabs">
+                    <li><a href="#">Results</a>
+                    </li>
+                    <li><a href="#">Verdict</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row" style="margin-top:2%;">
+            <div class="col-xs-12 col-centered percent-results">
+                <div class="row progressDiv padding-15">
+                    <div class="col-xs-3 textAlign">
+                        <i class="em em-grinning" style="padding-right:5px"></i>  <b>Joy</b>
+                    </div>
+                    <div class="col-xs-8" id="progressbar-4"></div>
+                    <!--                    <div class="col-xs-2" id="percent-4"></div>-->
+                </div>
+
+                <div class="row progressDiv">
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-11" ng-if="allTones.joy[0].text">{{allTones.joy[0].text}}</div>
+                </div>
+                <div class="row progressDiv">
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-11" ng-if="allTones.joy[1].text">{{allTones.joy[1].text}}</div>
+                </div>
+                <div class="row progressDiv padding-15">
+                    <div class="col-xs-3 textAlign">
+                        <i class="em em-angry"></i>  <b>Anger</b>
+                    </div>
+                    <div class="col-xs-8" id="progressbar-1">
+                    </div>
+
+                    <!--                    <div class="col-xs-2" id="percent-1"></div>-->
+                </div>
+                <div class="row progressDiv">
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-11" ng-if="allTones.anger[0].text">{{allTones.anger[0].text}}</div>
+                </div>
+                <div class="row progressDiv">
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-11" ng-if="allTones.anger[1].text">{{allTones.anger[1].text}}</div>
+                </div>
+                <div class="row progressDiv padding-15">
+                    <div class="col-xs-3 textAlign">
+                        <i class="em em-expressionless"></i>  <b>Disgust</b>
+                    </div>
+                    <div class="col-xs-8" id="progressbar-2">
+
+                    </div>
+                    <!--                    <div class="col-xs-2" id="percent-2"></div>-->
+                </div>
+                <div class="row progressDiv">
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-11" ng-if="allTones.disgust[0].text">{{allTones.disgust[0].text}}</div>
+                </div>
+                <div class="row progressDiv">
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-11" ng-if="allTones.disgust[1].text">{{allTones.disgust[1].text}}</div>
+                </div>
+                <div class="row progressDiv padding-15">
+                    <div class="col-xs-3 textAlign">
+                        <i class="em em-confounded"></i>  <b>Fear</b>
+                    </div>
+                    <div class="col-xs-8" id="progressbar-3"></div>
+                    <!--                    <div class="col-xs-2" id="percent-3"></div>-->
+                </div>
+                <div class="row progressDiv">
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-11" ng-if="allTones.fear[0].text">{{allTones.fear[0].text}}</div>
+                </div>
+                <div class="row progressDiv">
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-11" ng-if="allTones.fear[1].text">{{allTones.fear[1].text}}</div>
+                </div>
+
+                <div class="row progressDiv padding-15">
+                    <div class="col-xs-3 textAlign">
+                        <i class="em em-disappointed"></i>  <b>Sadness</b>
+                    </div>
+                    <div class="col-xs-8" id="progressbar-5">
+
+                    </div>
+                    <!--                    <div class="col-xs-2" id="percent-5"></div>-->
+                </div>
+                <div class="row progressDiv">
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-11" ng-if="allTones.sadness[0].text">{{allTones.sadness[0].text}}</div>
+                </div>
+                <div class="row progressDiv">
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-11" ng-if="allTones.sadness[1].text">{{allTones.sadness[1].text}}</div>
+                </div>
+            </div>
+        </div>
     </div>
 
 

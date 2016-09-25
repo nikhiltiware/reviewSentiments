@@ -7,6 +7,7 @@ reviewApp.controller('mainController', function($scope, $rootScope, $http, $stat
         joy: [],
         sadness: [],
     };
+    $scope.allTones = [];
 
     var aggregatedReviews = {
         anger: "",
@@ -15,7 +16,7 @@ reviewApp.controller('mainController', function($scope, $rootScope, $http, $stat
         joy: "",
         sadness: "",
     };
-    
+
     var getURL = function() {
         chrome.tabs.query({
                 active: true,
@@ -38,7 +39,7 @@ reviewApp.controller('mainController', function($scope, $rootScope, $http, $stat
             }
         );
     };
-    
+
     var init = function(paramValue) {
         getReviews(paramValue, 5);
     }
@@ -91,40 +92,140 @@ reviewApp.controller('mainController', function($scope, $rootScope, $http, $stat
         }
         reviewSentimentsArray.forEach(segregateReviews);
         console.log(seperatedTones);
-        $scope.data = JSON.stringify(seperatedTones);
+        //$scope.data = JSON.stringify(seperatedTones);
+        $scope.allTones = seperatedTones;
+        processEmotionalResponse(seperatedTones);
     }
 
+    var globalSum = 0,
+        totalAnger = 0,
+        totalDisgust = 0,
+        totalFear = 0,
+        totalJoy = 0,
+        totalSadness = 0;
 
-    var calculateDataForGraph = function() {
-        var avgScore = {
-            anger: 0,
-            disgust: 0,
-            fear: 0,
-            joy: 0,
-            sadness: 0,
-        };
-        for (var emotion in seperatedTones) {
-            //console.log("obj." + prop + " = " + obj[prop]);
-            avgScore[prop] = avgScore[prop] + getTotal(emotion,seperatedTones[emotion]);
-
-        }
+    var processEmotionalResponse = function(jsonText) {
+        var rootObj = jsonText;
+        console.log(jsonText);
+        //alert(rootObj);
+        totalAnger = getEmotionObject(rootObj, "anger", 0)
+        totalDisgust = getEmotionObject(rootObj, "disgust", 1);
+        totalFear = getEmotionObject(rootObj, "fear", 2);
+        totalJoy = getEmotionObject(rootObj, "joy", 3);
+        totalSadness = getEmotionObject(rootObj, "sadness", 4);
+        displayPercent((totalAnger / globalSum), "anger");
+        displayPercent((totalDisgust / globalSum), "disgust");
+        displayPercent((totalFear / globalSum), "fear");
+        displayPercent((totalJoy / globalSum), "joy");
+        displayPercent((totalSadness / globalSum), "sadness");
 
     }
 
-    var getTotal = function(emotion,arr) {
-        var finalTotal = 0;
+    var getEmotionObject = function(rootObj, name, id) {
+        var totalScore = 0;
+        var emotionObject = rootObj[name];
+        //alert(emotionObject.length);
+        for (var i = 0; i < emotionObject.length; i++) {
+            var e = emotionObject[i];
+            var tone_categories = e["tone_categories"];
+            //alert("tone_categories :"+tone_categories.length);
+            var tone_array = tone_categories[0]["tones"];
+            var k = id;
+            if (tone_array[k]["tone_id"] == name) {
+                totalScore += tone_array[k]["score"];
 
-        function countScore(element, index, array) {
-            finalTotal = finalTotal + element.tone_categories[0].tones[emotion];
+            } else
+                k++;
         }
 
-        reviewsArr.forEach(countScore);
-        return finalTotal;
+        globalSum += totalScore;
+        //alert(totalScore+" "+globalSum);
+        return totalScore;
 
-    };
+    }
 
-    var setChartOptions = function() {
+    var displayPercent = function(percent, tone_id) {
 
+        var result_tabs = $('.result-tabs');
+        if (result_tabs.css('visibility') == 'hidden') {
+            result_tabs.css('visibility', 'visible');
+        }
+
+        var percent_results = $('.percent-results');
+        if (percent_results.css('visibility') == 'hidden') {
+            percent_results.css('visibility', 'visible');
+        }
+
+        var progressDiv = $('.progressDiv');
+        if (progressDiv.css('visibility') == 'hidden') {
+            progressDiv.css('visibility', 'visible');
+        }
+
+        var color, id;
+        if (tone_id == 'anger') {
+            color = '#d80c0c';
+            id = 1;
+        } else if (tone_id == 'disgust') {
+            color = '#19a303';
+            id = 2;
+        } else if (tone_id == 'fear') {
+            color = '#a507b8';
+            id = 3;
+        } else if (tone_id == 'joy') {
+            color = '#FFEA82';
+            id = 4;
+        } else {
+            color = "#08b1c9";
+            id = 5;
+        }
+
+        updateProgress(id, 0, percent, color);
+
+    }
+
+    var updateProgress = function(id, val, percent, color) {
+        //alert(percent+" "+(percent/100));
+
+        $('#percent-' + id).text(Math.round(percent * 100) + ' %'); //Math.round(percent * 100) + ' %')
+        var bar = new ProgressBar.Line('#progressbar-' + id, {
+            strokeWidth: 4,
+            easing: 'easeInOut',
+            duration: 3000,
+            color: color,
+            trailColor: '#eee',
+            trailWidth: 1,
+            svgStyle: {
+                width: '100%',
+                height: '100%'
+            },
+            text: {
+                style: {
+                    // Text color.
+                    // Default: same as stroke color (options.color)
+                    color: '#999',
+                    position: 'absolute',
+                    right: '0',
+                    top: '30px',
+                    padding: 0,
+                    margin: 0,
+                    transform: null
+                },
+                autoStyleContainer: false
+            },
+            from: {
+                color: '#FFEA82'
+            },
+            to: {
+                color: '#ED6A5A'
+            },
+            step: (state, bar) => {
+                bar.setText(Math.round(bar.value() * 100) + ' %');
+
+            }
+
+        });
+
+        bar.animate(percent);
 
     }
     getURL();
